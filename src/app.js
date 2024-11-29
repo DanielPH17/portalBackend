@@ -17,7 +17,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.REACT_APP_URL_CORS,
+    origin: "https://portal-noticias-chi.vercel.app",
     credentials: true,
   })
 );
