@@ -16,6 +16,40 @@ const upload = multer({ storage: multer.memoryStorage() }).fields([
   { name: "fotoDePerfil", maxCount: 1 },
   { name: "imagenDePortada", maxCount: 1 },
 ]);
+export const createNewUser = async (req, res) => {
+  const { email, password, username, role, fotoDePerfil, imagenDePortada } =
+    req.body;
+
+  try {
+    const userFound = await User.findOne({ email });
+    if (userFound)
+      return res.status(400).json({ message: "The email already exists" });
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username,
+      email,
+      password: passwordHash,
+      role,
+      fotoDePerfil,
+      imagenDePortada,
+    });
+    const userSave = await newUser.save();
+
+    res.json({
+      id: userSave._id,
+      username: userSave.username,
+      email: userSave.email,
+      role: userSave.role,
+      fotoDePerfil: userSave.fotoDePerfil,
+      imagenDePortada: userSave.imagenDePortada,
+      createdAt: userSave.createdAt,
+      updatedAt: userSave.updatedAt,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const register = async (req, res) => {
   const { email, password, username, role, fotoDePerfil, imagenDePortada } =
@@ -68,7 +102,6 @@ export const login = async (req, res) => {
     const token = await createAccessToken({ id: userFound._id });
 
     res.cookie("token", token, {
-      httpOnly: true, // No accesible desde JavaScript
       secure: true, // Solo enviar la cookie a través de HTTPS
       sameSite: "None", // Asegurarse de que la cookie se envíe en solicitudes entre sitios
     });
