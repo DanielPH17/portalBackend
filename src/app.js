@@ -15,13 +15,14 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-app.options(
-  "*",
+app.use(
   cors({
     origin: process.env.REACT_APP_URL_CORS,
     credentials: true,
   })
 );
+
+app.options("*", cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
