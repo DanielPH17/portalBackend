@@ -214,6 +214,27 @@ export const incrementarLikes = async (req, res) => {
   }
 };
 
+// Controlador de Noticias (noticias.controller.js)
+
+export const incrementarShares = async (req, res) => {
+  try {
+    const noticia = await NoticiasModels.findById(req.params.id);
+    if (!noticia)
+      return res.status(404).json({ message: "Noticia no encontrada" });
+
+    // Incrementamos el contador de compartidos
+    noticia.compartidos += 1;
+
+    await noticia.save();
+
+    res.json(noticia); // Devolvemos la noticia actualizada con el nuevo contador de compartidos
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error al actualizar el contador de compartidos" });
+  }
+};
+
 //Metodos para llamar al home la noticia mas reciente, las 3 que le siguen, y 3 con mas likes
 
 export const getNoticiaReciente = async (req, res) => {

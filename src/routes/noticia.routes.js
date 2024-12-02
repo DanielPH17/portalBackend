@@ -7,6 +7,7 @@ import {
   updateNoticia,
   deleteNoticia,
   incrementarLikes,
+  incrementarShares,
   getNoticiaReciente,
   get3NoticiasRecientes,
   getNoticiasMasLikes,
@@ -24,4 +25,6 @@ router.post("/noticias", authRequiere, crearNoticia);
 router.delete("/noticias/:id", authRequiere, deleteNoticia);
 router.put("/noticias/:id", authRequiere, updateNoticia);
 router.patch("/noticias/:id/like", authRequiere, incrementarLikes);
+router.patch("/noticias/:id/share", authRequiere, incrementarShares);
+
 export default router;
