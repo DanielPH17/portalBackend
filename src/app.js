@@ -15,7 +15,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-app.use(
+app.options(
+  "*",
   cors({
     origin: process.env.REACT_APP_URL_CORS,
     credentials: true,
