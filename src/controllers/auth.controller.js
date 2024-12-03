@@ -76,6 +76,7 @@ export const register = async (req, res) => {
       httpOnly: true,
       secure: true, // Solo enviar la cookie a través de HTTPS
       sameSite: "None", // Asegurarse de que la cookie se envíe en solicitudes entre sitios
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
     res.json({
       id: userSave._id,
@@ -109,6 +110,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: true, // Solo enviar la cookie a través de HTTPS
       sameSite: "None", // Asegurarse de que la cookie se envíe en solicitudes entre sitios
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
     res.json({
       id: userFound._id,
